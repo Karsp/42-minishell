@@ -17,11 +17,12 @@ void	leaks(void)
 }
 
 //Mete lo que quieras aquí para liberar si todo ha ido bien al final del main
-void	ft_free_pruebas(t_env *env)
+void	ft_free_pruebas(t_shell_sack **sack)
 {
-	ft_free_env(env->env);
-	ft_free_env(env->pre_export);
-	free(env);
+	free_sack(&(*sack));
+	ft_free_env((*sack)->env->env);
+	ft_free_env((*sack)->env->pre_export);
+	free((*sack)->env);
 }
 
  int		main(int ac, char **av, char **envp)
@@ -32,11 +33,9 @@ void	ft_free_pruebas(t_env *env)
 	t_env		*env;
 	char 		*line;
 	t_shell_sack	*sack;
-	t_dlist		*tokens;
 
-	// atexit(leaks);
-	 tokens = NULL;
-	  sack = NULL;
+	atexit(leaks);
+	sack = NULL;
 	env = ft_calloc(1, sizeof(t_env));
 	if (init_env(envp, env))
 		return (1);
@@ -44,20 +43,23 @@ void	ft_free_pruebas(t_env *env)
 	sack->env = env;
 	while (42)
  	{
- 		line =  readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
+ 		line = readline("\001\033[1;34m\002minishell ▸ \001\033[0;0m\002");
 	 	if (line == 0)
  			return (0);
 		if (*line && !check_emptyorspace(line))
 		{
-			init_sack(sack, line, sack->envp);
+			if (!sack_init(sack, line))
+			{
+				init_tree(&sack);
+				execute(&sack);
+				// print2D(sack->tree_list);
+			}
 			//print_tokenlist(sack->token_list);
-			
-			init_tree(&sack);
-			execute(&sack);
-			//print2D(sack->tree_list);
+			free_sack(&sack);
+			// print2D(sack->tree_list);
 			//print_preorder(sack->tree_list);
 		}
-		if (*line) 
+		if (*line)
             add_history(line);
  		free(line);
 		//reset sack and free tokens and list?
@@ -66,6 +68,6 @@ void	ft_free_pruebas(t_env *env)
 	sack->new_pipes[0] = 0;
 	sack->new_pipes[1] = 1;
 	}
-	ft_free_pruebas(env);
+	ft_free_pruebas(&sack);
     return (0);
  }
