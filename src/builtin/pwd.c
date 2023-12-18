@@ -12,16 +12,17 @@
 #include "../../include/minishell.h"
 
 /*@brief PWD, pendiente gestionar fallos en caso de error*/
-int    get_pwd(void)
+int   get_pwd(void)
 {
     size_t size = 1000;
     char *buffer;
-    
+    char *result;
+
     buffer = (char *)malloc(size);
     if (buffer == NULL) {
         return (perror("Error en la asignación de memoria"), 1);
     }
-    char *result = getcwd(buffer, size);
+    result = getcwd(buffer, size);
     if (result == NULL)
     {
         free(buffer);

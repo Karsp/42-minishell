@@ -11,6 +11,17 @@
 /* ************************************************************************** */
 #include"../include/minishell.h"
 
+void	ft_clearenv(t_shell_sack *sack)
+{
+    if (sack->env->pwd)
+        free(sack->env->pwd);
+     if (sack->env->oldpwd)
+        free(sack->env->oldpwd);
+	ft_free_env(sack->env->env);
+	ft_free_env(sack->env->pre_export);
+	free(sack->env);
+}
+
 void    free_tree(t_tree **node) 
 {
 	if (*node != NULL && node != NULL) 
@@ -30,11 +41,10 @@ void    free_sack(t_shell_sack **sack)
     {
         if((*sack)->line)
             free((*sack)->line);
-     //   free((*sack)->l_expanded);
         if ((*sack)->token_list)
             ft_dlstclear(&(*sack)->token_list, &free_token);
         if ((*sack)->tree_list)
-        free_tree(&(*sack)->tree_list);
+            free_tree(&(*sack)->tree_list);
     }
 }
 
@@ -49,7 +59,8 @@ void    free_token(void *content)
     {
         if(value != NULL && token->value)
             free(token->value);
-        if (&token->cmds)
+        // if (&token->cmds)
+        // if (*token->cmds)
             ft_freematrix(&token->cmds);
     }
     free(content);
@@ -64,6 +75,7 @@ void	perror_free_exit(char *msj, t_shell_sack ***sack)
 	// if ((**sack)->heredoc)
         // unlink("tmp/.heredoc");
     free_sack(&(**sack));
+    ft_clearenv((**sack));
     // ft_free_env((**sack)->env->env);
 	// ft_free_env((**sack)->env->pre_export);
 	// free((**sack)->env->env);

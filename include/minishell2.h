@@ -25,6 +25,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 # define CMD 0
 # define PIPE 1
@@ -83,6 +84,7 @@ typedef struct s_shell_sack
 {
 	char			*line;
 	char			*l_expanded;
+	char 			**split_line;
 	int				pos;
 	struct s_dlist	*token_list;
 	struct s_tree	*tree_list;
@@ -90,7 +92,7 @@ typedef struct s_shell_sack
 	int				old_pipes[2];
 	int				redirs[2];
 	int				heredoc;
-	t_token			*last_token;
+	// t_token			*last_token;
 	int				last_pid;
 	int				last_exit;
 	int				history_fd;
