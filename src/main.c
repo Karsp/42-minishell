@@ -16,17 +16,8 @@ void	leaks(void)
 	system("leaks -q minishell");
 }
 
-//Mete lo que quieras aquí para liberar si todo ha ido bien al final del main
-void	ft_free_pruebas(t_shell_sack **sack)
+int		main(int ac, char **av, char **envp)
 {
-	ft_free_env((*sack)->env->env);
-	ft_free_env((*sack)->env->pre_export);
-	free((*sack)->env);
-	free_sack(&(*sack));
-}
-
- int		main(int ac, char **av, char **envp)
- {
     (void)ac;
     (void)av;
 	t_env		*env;
@@ -53,10 +44,10 @@ void	ft_free_pruebas(t_shell_sack **sack)
 			if (!sack_init(sack, line))
 			{
 				init_tree(&sack);
+				// print_tokenlist(sack->token_list);
 				execute(&sack);
 				// print2D(sack->tree_list);
 			}
-			//print_tokenlist(sack->token_list);
 			// free_sack(&sack);
 			// print2D(sack->tree_list);
 			//print_preorder(sack->tree_list);
@@ -72,4 +63,4 @@ void	ft_free_pruebas(t_shell_sack **sack)
 	}
 	ft_clearenv(sack);
     return (0);
- }
+}
