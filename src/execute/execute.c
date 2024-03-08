@@ -21,7 +21,6 @@ void    run_oper(t_tree *node)
     t_token         *token;
     t_tree          *aux_node;
 
-
     // sack = *sack_orig;
     token = (node)->content;
     aux_node = findnext_cmdleaf(&node->right);
@@ -77,7 +76,7 @@ void    run_cmd(t_shell_sack ***sack_orig, t_tree *node)
             (*sack)->last_exit = 1; //check error code
             perror_free_exit("Open error", sack_orig);
         }
-        if ((*sack)->old_pipes[0] != 0 )
+        if ((*sack)->old_pipes[0] != 0 ) //Verifica si hay pipe
             if (dup2((*sack)->old_pipes[0], STDIN_FILENO) == -1)
                 perror_free_exit("Dup2 error IN", sack_orig);
         if ((*sack)->new_pipes[1] != 1 )
@@ -133,16 +132,17 @@ void    run_node(t_shell_sack **sack, t_tree **node)
     token = (*node)->content;
     if (token->type == PARENT_CL)
     {
-        if (!check_opercondition(sack, node))
+        if (token->oper != 0 && !check_opercondition(sack, node))
             (*node)->right = NULL;
     }
     else if (token->type == CMD)
     {
         if (check_opercondition(sack, node) || (*node)->content->oper == 0)
         {
-
             run_cmd(&sack, (*node));
         }
+        else if (token->oper != 0)
+                (*sack)->old_pipes[0] = 0;
     }
     else if (token->type == PIPE)
     {
@@ -152,6 +152,7 @@ void    run_node(t_shell_sack **sack, t_tree **node)
     else if (token->type == OPER)
     {
         run_oper((*node));
+      //  (*sack)->old_pipes[0] = 0;
     }
 }
 
@@ -167,7 +168,7 @@ void    run_preorder(t_tree *node, t_shell_sack **sack)
                 if(check_redirect(&sack, node))
                 {
                     (*sack)->last_exit = 1; //check error code
-                    printf("k koño");
+                    // printf("k koño");
                     perror_free_exit("Open error", &sack);
                 }
                 if ((*sack)->old_pipes[0] != 0 )
@@ -198,7 +199,8 @@ void	execute(t_shell_sack **sack)
     // if (ft_strnstr((*sack)->line, "exit", 4))
     //     (*sack)->last_exit = cmd_exit(&sack, tree->content->cmds); 
     // else
-        run_preorder(tree, sack);
+    run_preorder(tree, sack);
+    unlink(".heredoc");
     free_sack(&(*sack));
 }
 
