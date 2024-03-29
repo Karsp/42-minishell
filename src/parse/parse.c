@@ -9,7 +9,7 @@
 /*   Updated: 2023/11/09 03:47:00 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"../../include/minishell.h"
+#include "../../include/minishell.h"
 
 // int check_errors_opers(t_dlist *list)
 // {
@@ -33,9 +33,8 @@
 // 	}
 // 	return (0);
 // }
-
-
 ///
+
 void	put_syntaxerror(int cmd)
 {
 	if (cmd == '|')
@@ -46,23 +45,21 @@ void	put_syntaxerror(int cmd)
 		ft_putstr_fd("minishell: syntax error near unexpected token: '>'\n", 2);
 }
 
-
 int	check_isoperator(char c)
 {
-	if (c == '|' || c == '<'  || c == '>' || c == ')')
+	if (c == '|' || c == '<' || c == '>' || c == ')')
 		return (1);
 	return (0);
 }
 
-int check_iscomand(char c)
+int	check_iscomand(char c)
 {
 	if (c == '-' || c == '_' || c == '.'
 		|| !ft_isalpha(c) || !ft_isalnum(c)
 		|| c == D_QUOTES || c == S_QUOTES)
-			return (1);
+		return (1);
 	return (0);
 }
-
 
 // int check_valid_heredoc(char *s, int i)
 // {
@@ -73,17 +70,18 @@ int check_iscomand(char c)
 
 int	check_validoper(char *s, int i)
 {
-	int index = i;
+	int	index;
 
+	index = i;
 	if (ft_strlen(s) < 4)
 		return (1);
-	if(s[i] == '|')
+	if (s[i] == '|')
 	{
 		if (i < 2 || !s[i + 1] || (!ft_isspace(s[i - 1]) && s[i - 1] != '|')
-		|| (!ft_isspace(s[i + 1]) && s[i + 1] != '|'))
+			|| (!ft_isspace(s[i + 1]) && s[i + 1] != '|'))
 			return (2);
 	}
-	if(s[i] == '<' || s[i] == '>')
+	if (s[i] == '<' || s[i] == '>')
 	{
 		if (!s[i + 1])
 			return (2);
@@ -98,28 +96,29 @@ int	check_validoper(char *s, int i)
 		if (ft_isspace(s[i]) == 1)
 			i--;
 		else if (check_iscomand(s[i]))
-			return (0);	
+			return (0);
 		else if (check_isoperator(s[i]))
 			return (2);
 		i--;
-	}                                                           
-	while(s[index++])
+	}                                         
+	while (s[index++])
 	{
 		if (ft_isspace(s[i]))
 			index++;
-		else if(check_iscomand(s[i]))
+		else if (check_iscomand(s[i]))
 			return (0);
 		else if (check_isoperator(s[i]))
 			return (2);
 	}
 	return (2);
-}	
+}
 
-int	check_syntaxerrors(t_shell_sack *sack, char *s)
+int	check_syntaxerrors(t_shell_sack ***sack, char *s)
 {
-	int i;
-	int	str = 1;
+	int	i;
+	int	str;
 
+	str = 1;
 	i = -1;
 	while (s[++i])
 	{
@@ -129,7 +128,7 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 		{
 			if (check_validoper(s, i))
 			{
-				sack->last_exit = 2;
+				(**sack)->last_exit = 2;
 				return (put_syntaxerror('|'), 2);
 			}
 		}
@@ -137,7 +136,7 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 		{
 			if (check_validoper(s, i))
 			{
-				sack->last_exit = 2;
+				(**sack)->last_exit = 2;
 				return (put_syntaxerror('<'), 2);
 			}
 		}
@@ -145,24 +144,35 @@ int	check_syntaxerrors(t_shell_sack *sack, char *s)
 		{
 			if (check_validoper(s, i))
 			{
-				sack->last_exit = 2;
+				(**sack)->last_exit = 2;
 				return (put_syntaxerror('>'), 2);
 			}
 		}
+		
+		// if (s[i] == ')' && str == 1) arreglar esto pa k no de segfault con )
+		// {
+		// 	if (check_validoper(s, i))
+		// 	{
+		// 		sack->last_exit = 2;
+		// 		return (put_syntaxerror(')'), 2);
+		// 	}
+		// }
 	}
 	return (0);
 }
 
-int check_errors_initsack(t_shell_sack *sack)
+int check_errors_initsack(t_shell_sack **sack)
 {
-	char *s;
+	char	*s;
 
-	s = sack->line;
+	s = (*sack)->line;
 	if (check_open_quotes(s))
 		return (ft_putstr_fd("Input invalid, found open quotes\n", 2), 2);
-	if (check_emptyorspace(sack->line))
+	if (check_emptyorspace((*sack)->line))
 		return (1);
-	if (check_syntaxerrors(sack, s))
+	if (check_syntaxerrors(&sack, s))
 		return (1);
+	if (check_open_parentheses(s))
+		return (ft_putstr_fd("Input invalid, parentheses doesn't match\n", 2), 2);
 	return (0);
 }

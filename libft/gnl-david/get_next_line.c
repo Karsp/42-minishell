@@ -9,7 +9,7 @@
 /*   Updated: 2023/04/27 20:04:35 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"get_next_line.h"
+#include "get_next_line.h"
 
 void	ft_free(char **str)
 {
@@ -18,23 +18,6 @@ void	ft_free(char **str)
 		free(*str);
 		*str = NULL;
 	}
-}
-
-int	ft_strposchr(const char *s, int c)
-{
-	int		count;
-
-	count = 0;
-	if (s)
-	{
-		while (((char *) s)[count] != '\0')
-		{
-			if (((char *) s)[count] == (char) c)
-				return (count);
-			count++;
-		}
-	}
-	return (-1);
 }
 
 char	*ft_saveline(char **waste)
