@@ -62,14 +62,23 @@ int	sack_init(t_shell_sack *sack, char *line)
 	free (sack->l_expanded);
 	sack->token_list = init_tokens(sack->line, &sack);
 	if (!sack->token_list)
+<<<<<<< HEAD
 	{
 		free(sack->line);
 		return (1);
 	}
+=======
+		return (free(sack->line), 1);
+>>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 	get_cmd_args(&sack);
 	return (0);
 }
 
+<<<<<<< HEAD
+=======
+//atexit(leaks);
+
+>>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 int	minishell(t_shell_sack *sack, char *line)
 {
 	sighandler();
@@ -105,6 +114,10 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 	line = NULL;
 	sack = NULL;
 	if (clean_init(&sack) || env_init(sack, envp))

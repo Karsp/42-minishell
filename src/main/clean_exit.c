@@ -46,7 +46,11 @@ void	free_sack(t_shell_sack **sack)
 	}
 }
 
+<<<<<<< HEAD
 void	free_token_noargs(void *content)
+=======
+void	free_token(void *content)
+>>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 {
 	t_token	*token;
 	char	*value;
@@ -57,10 +61,15 @@ void	free_token_noargs(void *content)
 	{
 		if (value != NULL && token->value)
 			free(token->value);
+<<<<<<< HEAD
+=======
+		ft_freematrix(&token->cmds);
+>>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 	}
 	free(content);
 }
 
+<<<<<<< HEAD
 void	free_token(void *content)
 {
 	t_token	*token;
@@ -77,6 +86,8 @@ void	free_token(void *content)
 	free(content);
 }
 
+=======
+>>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 /*VERSION MEJORADA perror_free_exit*/
 void	free_exit(char **cmds, t_shell_sack ***sack, int msj)
 {

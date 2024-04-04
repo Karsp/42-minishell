@@ -50,6 +50,7 @@ int	evaluate(t_automata *a)
 }
 
 // @brief Alphabet definitions
+<<<<<<< HEAD
 void	alphabet_init(t_automata **a)
 {
 	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "0");
@@ -61,6 +62,19 @@ void	alphabet_init(t_automata **a)
 	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "6");
 	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "7");
 	(*a)->alphabet = ft_clear_sarradd((*a)->alphabet, "8");
+=======
+void	alphabet_init(t_automata *a)
+{
+	a->alphabet = ft_clear_sarradd(a->alphabet, "0");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "1");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "2");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "3");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "4");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "5");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "6");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "7");
+	a->alphabet = ft_clear_sarradd(a->alphabet, "8");
+>>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 }
 
 int	get_state(int i, int j)
@@ -82,6 +96,7 @@ int	get_state(int i, int j)
 }
 
 // @brief Error strings to print when automata finish on a non ending state.
+<<<<<<< HEAD
 void	errors_init(t_automata **a)
 {
 	(*a)->errors = NULL;
@@ -98,4 +113,18 @@ void	errors_init(t_automata **a)
 	(*a)->errors = ft_clear_sarradd((*a)->errors, "Command syntax error");
 	(*a)->errors = ft_clear_sarradd((*a)->errors, "Invalid input");
 	(*a)->errorlen = ft_sarrlen((*a)->errors);
+=======
+void	errors_init(t_automata *a)
+{
+	a->errors = NULL;
+	a->errors = ft_sarradd(NULL, "Empty string.");
+	a->errors = ft_sarradd(a->errors, "Redirections with no cmd");
+	a->errors = ft_sarradd(a->errors, "Operator syntax error");
+	a->errors = ft_sarradd(a->errors, "Operator syntax error near '|'");
+	a->errors = ft_sarradd(a->errors, "Operator syntax error near '|| &&'");
+	a->errors = ft_sarradd(a->errors, "Operator syntax error near '()'");
+	a->errors = ft_sarradd(a->errors, "Command syntax error");
+	a->errors = ft_sarradd(a->errors, "Invalid input");
+	a->errorlen = ft_sarrlen(a->errors);
+>>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 }
