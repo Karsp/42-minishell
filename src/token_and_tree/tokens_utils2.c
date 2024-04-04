@@ -13,24 +13,14 @@
 
 void	free_automata(t_automata *a)
 {
-<<<<<<< HEAD
 	ft_freematrix(&(a->alphabet));
 	ft_freematrix(&(a->errors));
-=======
-	ft_freematrix(&a->alphabet);
-	ft_freematrix(&a->errors);
->>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 }
 
 void	automata_init(t_automata *a, t_dlist **token_list)
 {
-<<<<<<< HEAD
 	alphabet_init(&a);
 	errors_init(&a);
-=======
-	alphabet_init(a);
-	errors_init(a);
->>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 	a->token_list = token_list;
 	a->get_state = get_state;
 }

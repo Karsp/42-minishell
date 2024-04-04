@@ -99,12 +99,8 @@ t_dlist	*init_tokens(char *line, t_shell_sack **sack)
 	}
 	if (validate_tokens(list, &sack))
 	{
-<<<<<<< HEAD
 		ft_dlstclear(&list, &free_token_noargs);
 		return (NULL);
-=======
-		return (ft_dlstclear(&list, del_dlst), NULL);
->>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 	}
 	return (list);
 }

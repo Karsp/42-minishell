@@ -124,10 +124,6 @@ typedef struct s_shell_sack
 	int				oper_state;
 }	t_shell_sack;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 //FILE AUTOMATA.H
 typedef struct s_automata
 {
@@ -145,9 +141,4 @@ typedef struct s_automata
 	int		(*get_state)(int state, int abc_idx);
 }	t_automata;
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 2426d6c7df92e39fe68d5625a9623e6134df6f1a
 #endif
