@@ -9,11 +9,12 @@
 /*   Updated: 2023/11/19 19:40:55 by daviles-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"../../include/minishell.h"
+#include "../../include/minishell.h"
+
 int	check_route(char *av)
 {
 	if (ft_strchr(av, '/'))
-		return (1); //CON TO MI COÑO JEJE
+		return (1);
 	if (ft_strncmp(av, "/", 1) == 0 || ft_strncmp(av, "./", 2) == 0)
 		return (1);
 	else if (ft_strncmp(av, "../", 3) == 0)
@@ -25,7 +26,18 @@ int	check_route(char *av)
 int	check_path(char **env)
 {
 	int	i;
+	int	exist;
 
+	exist = 0;
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
+			exist = 1;
+		i++;
+	}
+	if (!exist)
+		return (-1);
 	i = 0;
 	while (env[i])
 	{
@@ -44,28 +56,24 @@ char	*get_path(char *cmd, char **env)
 	char	*cmd_path;
 
 	i = check_path(env);
+	if (i == -1)
+		return (NULL);
 	if (!env[i] || !env)
 		return ("./");
 	else
 		paths = ft_split(env[i] + 5, ':');
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		path = ft_strjoin(paths[i], "/");
 		cmd_path = ft_strjoin(path, cmd);
 		if (access(cmd_path, X_OK) == 0)
-		{
-			free(cmd_path);
-			return (ft_freematrix(&paths), path);
-		}
+			return (free(cmd_path), ft_freematrix(&paths), path);
 		free(cmd_path);
 		free(path);
-		i++;
 	}
 	return (ft_freematrix(&paths), NULL);
 }
-
-//--------------------------
 
 char	*find_path(char *cmd, char **envp)
 {
@@ -100,11 +108,8 @@ char	*getcmd_withpath(char *cmd, char **env)
 	char	*aux;
 
 	path_cmd = NULL;
-
 	if (check_route(cmd) == 1)
 		path_cmd = cmd;
-	// else
-	// 	path_cmd = find_path(cmd, env);
 	else
 	{
 		aux = get_path(cmd, env);
@@ -112,7 +117,6 @@ char	*getcmd_withpath(char *cmd, char **env)
 		{
 			path_cmd = ft_strjoin(aux, cmd);
 			free(aux);
-			// printf("\ncmd:%s\n", path_cmd);
 		}
 	}
 	return (path_cmd);
