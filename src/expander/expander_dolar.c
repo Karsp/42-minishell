@@ -68,14 +68,34 @@ int	run_expand_dolar(t_shell_sack *sack, char *old, int dolar)
 
 	expand = NULL;
 	temp = NULL;
+		sack->expanded[0] = ft_substr(old, 0, dolar);
+	else
+		sack->expanded[0] = ft_strdup("\0");
+	if (!sack->expanded[0])
+		return (NULL);
+	return (sack->expanded[0]);
+}
+
+int	run_expand_dolar(t_shell_sack *sack, char *old, int dolar)
+{
+	int		i;
+	char	*temp;
+	char	*expand;
+
+	expand = NULL;
+	temp = NULL;
 	i = dolar + 1;
 	if (old[i] == '?')
 	{
+		sack->expanded[1] = ft_itoa(sack->last_exit);
 		sack->expanded[1] = ft_itoa(sack->last_exit);
 		i++;
 	}
 	else
 	{
+		temp = ft_substr(old, i, len_expand_dolar(old, i));
+		i += len_expand_dolar(old, i);
+		sack->expanded[1] = get_varname(sack, temp);
 		temp = ft_substr(old, i, len_expand_dolar(old, i));
 		i += len_expand_dolar(old, i);
 		sack->expanded[1] = get_varname(sack, temp);
@@ -98,7 +118,34 @@ char	*expand_dolar(t_shell_sack *sack, char *old, int dolar)
 	i = run_expand_dolar(sack, old, dolar);
 	if (!sack->expanded[1])
 		return (ft_free_error_arr(sack->expanded, 1), NULL);
+	return (i);
+}
+
+char	*expand_dolar(t_shell_sack *sack, char *old, int dolar)
+{
+	char	*expand;
+	int		i;
+
+	sack->expanded = malloc(4 * sizeof(char *));
+	if (!sack->expanded)
+		return (NULL);
+	sack->expanded[0] = previous_expand_dolar(sack, old, dolar);
+	if (!sack->expanded[0])
+		return (ft_free_error_arr(sack->expanded, 0), NULL);
+	i = run_expand_dolar(sack, old, dolar);
+	if (!sack->expanded[1])
+		return (ft_free_error_arr(sack->expanded, 1), NULL);
 	if ((size_t)i < ft_strlen(old))
+		sack->expanded[2] = ft_substr(old, i, ft_strlen(old));
+	else
+		sack->expanded[2] = ft_strdup("\0");
+	if (!sack->expanded[2])
+		return (ft_free_error_arr(sack->expanded, 2), NULL);
+	sack->expanded[3] = NULL;
+	expand = arr_join_not_spaces(sack);
+	ft_free_env(sack->expanded);
+	if (!expand)
+		return (NULL);
 		sack->expanded[2] = ft_substr(old, i, ft_strlen(old));
 	else
 		sack->expanded[2] = ft_strdup("\0");

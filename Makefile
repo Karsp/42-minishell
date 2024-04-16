@@ -112,12 +112,19 @@ re: fclean all
 # CFLAGS = -Werror -Wextra -Wall
 # #-g3 -fsanitize=address
 # CCLANG = -lreadline
+# CFLAGS = -Werror -Wextra -Wall
+# #-g3 -fsanitize=address
+# CCLANG = -lreadline
 # RM = rm -f
 # LIBFT_DIR = libft/
 # LIBFT = $(LIBFT_DIR)libft.a
 
 # OBJ_DIR = obj
+
+# OBJ_DIR = obj
 # SRC_DIR = src
+
+
 
 
 # SRC = $(shell find $(SRC_DIR) -name '*.c')
@@ -125,8 +132,12 @@ re: fclean all
 
 # INCLUDE = include/minishell.h include/minishell2.h
 
+# INCLUDE = include/minishell.h include/minishell2.h
+
 # all: $(NAME)
 
+# $(NAME): $(OBJ) $(LIBFT) $(INCLUDE)
+# 	$(CC) $(CFLAGS) $(OBJ) $(CCLANG) $(LIBFT) -o $(NAME)
 # $(NAME): $(OBJ) $(LIBFT) $(INCLUDE)
 # 	$(CC) $(CFLAGS) $(OBJ) $(CCLANG) $(LIBFT) -o $(NAME)
 
@@ -134,10 +145,15 @@ re: fclean all
 # # @echo "${COLOR_BLUE} ◎ $(BROWN)Compiling   ${MAGENTA}→   $(COLOR_YELLOW)$<"
 # 	@make -C $(LIBFT_DIR)
 # # @echo "$(COLOR_GREEN) Created libft $(COLOR_RESET)"
+# # @echo "${COLOR_BLUE} ◎ $(BROWN)Compiling   ${MAGENTA}→   $(COLOR_YELLOW)$<"
+# 	@make -C $(LIBFT_DIR)
+# # @echo "$(COLOR_GREEN) Created libft $(COLOR_RESET)"
 
+# # %.o: %.c
 # # %.o: %.c
 
 # $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+# # @echo "${BLANCO_T} ◎ $(BROWN)Compiling 🛠️  ${MAGENTA}→   $(COLOR_CYAN)$< $(COLOR_RESET)"
 # # @echo "${BLANCO_T} ◎ $(BROWN)Compiling 🛠️  ${MAGENTA}→   $(COLOR_CYAN)$< $(COLOR_RESET)"
 # 	@mkdir -p $(dir $@)
 # 	@$(CC) $(CFLAGS) -c -o $@ $<
@@ -146,9 +162,12 @@ re: fclean all
 # clean:
 # 	@rm -rf $(OBJ_DIR) $(LIBFT)
 # 	@make clean -C $(LIBFT_DIR)
+# 	@rm -rf $(OBJ_DIR) $(LIBFT)
+# 	@make clean -C $(LIBFT_DIR)
 
 # fclean: clean
 # 	@rm -f $(NAME)
+# 	@make fclean -C $(LIBFT_DIR)
 # 	@make fclean -C $(LIBFT_DIR)
 # 	@echo "$(COLOR_RED_N) Cleaned all! 🧹 $(COLOR_RESET)"
 
