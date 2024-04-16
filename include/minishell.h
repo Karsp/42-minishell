@@ -21,17 +21,20 @@ int		sack_init(t_shell_sack *sack, char *line);
 
 /* ---------------------- PARSE ------------------------*/
 int		check_errors_initsack(t_shell_sack **sack);
-int		check_open_quotes(char *s);
+int		check_open_quotes(char *s, int d_quotes, int s_quotes);
 int		check_errors_opers(t_dlist *list);
 int		check_open_parentheses(char *s);
 int		goto_nextquote(char *s, int i);
+void	put_syntaxerror(int cmd);
+int		check_isoperator(char c);
 
 /* ---------------------- EXPANDER ------------------------*/
-char	*remove_quotes(char *old, char c);
+char	*remove_quotes(char *old, char c, int quotes);
 int		expand_line(t_shell_sack *sack);
-char	*expand_dolar(t_shell_sack *sack, char *old, int i);
-int		check_expand_dolar(char *old, int i);
+char	*expand_dolar(t_shell_sack *sack, char *old, int dolar);
+int		check_expand_dolar(t_shell_sack *sack, int i);
 char	*get_varname(t_shell_sack *sack, char *old);
+char	*get_varname_pre_export(t_shell_sack *sack, char *old);
 int		search_char(char *s, char c, int i);
 char	*get_varcontent(char *var);
 char	*remove_quotes_cmd(char *s);
@@ -60,8 +63,8 @@ int		validate_tokens(t_dlist *token_list, t_shell_sack ***sack);
 void	automata_init(t_automata *a, t_dlist **token_list);
 //automara.c
 int		evaluate(t_automata *a);
-void	alphabet_init(t_automata *a);
-void	errors_init(t_automata *a);
+void	alphabet_init(t_automata **a);
+void	errors_init(t_automata **a);
 int		get_state(int i, int j);
 //tree_init.c
 void	init_tree(t_shell_sack **sack);
@@ -74,6 +77,9 @@ void	leaf_isparenthesis_op(t_tree ***root, t_dlist *token_list);
 void	leaf_isparenthesis_cl(t_tree ***root, t_dlist *token_list);
 void	leaf_isoperpipe(t_tree ***root, t_dlist *token_list);
 t_tree	*new_leaf(t_token *token);
+t_tree	*findright_cmd_redirleaf(t_tree **node);
+//tree_utils2.c
+int		leaf_isredirect_aux(t_tree **tree, t_dlist *token_list);
 // A estas funciones solamente las llamas en tokens_init.c:35 y está comentado.
 //Si no se va a usar borrar archivo
 int		valid_varname(char *value, int *i);
@@ -122,7 +128,8 @@ int		search_env_pos(char **env, char *word, char limit);
 size_t	ft_arraylen(char **array);
 void	ft_free_env(char **env);
 int		print_env(t_shell_sack ****sack_orig);
-void	ft_free_error_arr(char **mem, long i);
+int		ft_free_error_arr(char **mem, long row);
+
 //export.c
 int		export(t_env *env, char *new);
 int		is_valid_to_export(char *s);
@@ -130,7 +137,7 @@ char	**realloc_export_add(t_env *env, char *new);
 //print_export_list.c
 void	print_export_list(t_env *env);
 //pre_export.c
-void	pre_export_new_variable(t_env *env, char *line);
+int		pre_export_new_variable(t_env *env, char *line);
 int		already_added_pre_export_list(t_env *env, char *new);
 //unset.c
 int		unset(t_env *env, char *del, int check);
@@ -153,11 +160,14 @@ int		execute_builtin(t_shell_sack ***sack, t_tree *node);
 int		check_builtinparent(t_tree *node);
 //exit.c
 int		cmd_exit(t_shell_sack ***sack, char **cmd);
+int		init_shlvl(t_shell_sack *sack);
+int		insert_shlvlenv(t_shell_sack *sack, char *new);
 
 /* ---------------------- CLEAN AND EXIT ------------------------*/
 void	ft_free_pruebas(t_shell_sack **sack);
 void	ft_clearenv(t_shell_sack *sack);
 void	free_token(void *content);
+void	free_token_noargs(void *content);
 void	free_sack(t_shell_sack **sack);
 void	free_tree(t_tree **node);
 int		wait_exitcode(int last_pid);

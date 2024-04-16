@@ -19,18 +19,11 @@ void	leaf_isredirect(t_tree ***root, t_dlist *token_list)
 
 	token = token_list->content;
 	tree = *root;
-	if ((*tree)->right == NULL)
-		(*tree)->right = new_leaf(token);
-	else if ((*tree)->left == NULL && (*tree)->right->content->type >= HEREDOC)
+	aux_leaf = *tree;
+	if (!leaf_isredirect_aux(&aux_leaf, token_list))
 	{
-		(*tree)->left = new_leaf(token);
-	}
-	else
-	{
-		aux_leaf = *tree;
-		while (aux_leaf->right)
-			aux_leaf = aux_leaf->right;
-		aux_leaf->right = new_leaf(token);
+		aux_leaf = findright_cmd_redirleaf(&aux_leaf);
+		leaf_isredirect_aux(&aux_leaf, token_list);
 	}
 }
 
