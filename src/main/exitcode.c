@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
-#include "../../include/minishell.h"
 
 // @brief Wait for the PID received to end, and returns exitcode.
 int	wait_exitcode(int last_pid)
@@ -39,16 +38,12 @@ int	wait_exitcode(int last_pid)
 		}
 	}
 	return (exit_code);
-	return (exit_code);
 }
 
 int	read_exit(char *line)
 {
 	if (!ft_strncmp(line, "exit", 5))
 		return (1);
-	if (!ft_strncmp(line, "exit", 5))
-		return (1);
 	else
 		return (0);
 }
-

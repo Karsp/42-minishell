@@ -41,16 +41,12 @@ int	cd_path(t_shell_sack *sack, int check)
 {
 	char	*pathname;
 	char	*path;
-	char	*path;
 	char	curr_dir[256];
-
-	path = getcwd(curr_dir, sizeof(curr_dir));
 
 	path = getcwd(curr_dir, sizeof(curr_dir));
 	if (path == NULL)
 	{
 		cd_mserror(path);
-		path = ft_strjoin(sack->env->pwd, "..");
 		path = ft_strjoin(sack->env->pwd, "..");
 		if (!path)
 			return (1);
@@ -87,17 +83,10 @@ int	update_oldpwd(t_shell_sack *sack)
 //@brief Try acces path "cmds"
 //Display message in case of an error
 int	cd(t_shell_sack *sack, char **cmds)
-//@brief Try acces path "cmds"
-//Display message in case of an error
-int	cd(t_shell_sack *sack, char **cmds)
 {
 	char	*path;
 	int		ret;
-	char	*path;
-	int		ret;
 
-	path = cmds[1];
-	if (ft_sarrlen(cmds) > 2)
 	path = cmds[1];
 	if (ft_sarrlen(cmds) > 2)
 		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);

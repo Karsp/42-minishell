@@ -21,7 +21,6 @@ int	check_iscomand(char c)
 }
 
 int	check_validoper2(char *s, int i)
-int	check_validoper2(char *s, int i)
 {
 	int	index;
 
@@ -36,7 +35,6 @@ int	check_validoper2(char *s, int i)
 			return (2);
 		i--;
 	}
-	}
 	while (s[index++])
 	{
 		if (ft_isspace(s[i]))
@@ -47,22 +45,6 @@ int	check_validoper2(char *s, int i)
 			return (2);
 	}
 	return (2);
-}
-
-int	check_validoper(char *s, int i)
-{
-	if (ft_strlen(s) < 4)
-		return (1);
-	if (s[i] == '|')
-	{
-		if (i < 2 || !s[i + 1] || (!ft_isspace(s[i - 1]) && s[i - 1] != '|')
-			|| (!ft_isspace(s[i + 1]) && s[i + 1] != '|'))
-			return (2);
-	}
-	if ((s[i] == '<' || s[i] == '>') && (!s[i + 1]))
-		return (2);
-	check_validoper2(s, i);
-	return (0);
 }
 
 int	check_validoper(char *s, int i)
@@ -102,22 +84,14 @@ int	check_syntaxerrors(t_shell_sack ***sack, char *s)
 }
 
 int	check_errors_initsack(t_shell_sack **sack)
-int	check_errors_initsack(t_shell_sack **sack)
 {
 	char	*s;
-	int		d_quotes;
-	int		s_quotes;
 	int		d_quotes;
 	int		s_quotes;
 
 	d_quotes = 0;
 	s_quotes = 0;
-	d_quotes = 0;
-	s_quotes = 0;
 	s = (*sack)->line;
-	if (!s || s[0] == '\0')
-		return (1);
-	if (check_open_quotes(s, d_quotes, s_quotes))
 	if (!s || s[0] == '\0')
 		return (1);
 	if (check_open_quotes(s, d_quotes, s_quotes))
@@ -127,14 +101,9 @@ int	check_errors_initsack(t_shell_sack **sack)
 	if (check_syntaxerrors(&sack, s))
 	{
 		(*sack)->last_exit = 2;
-	{
-		(*sack)->last_exit = 2;
 		return (1);
 	}
-	}
 	if (check_open_parentheses(s))
-		return (ft_putstr_fd("Input invalid, "
-				"parentheses doesn't match\n", 2), 2);
 		return (ft_putstr_fd("Input invalid, "
 				"parentheses doesn't match\n", 2), 2);
 	return (0);

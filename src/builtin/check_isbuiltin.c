@@ -2,7 +2,6 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   check_isbiltin.c                                   :+:      :+:    :+:   */
-/*   check_isbiltin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,11 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../include/minishell.h"
-#include "../../include/minishell.h"
 
-/* @brief return 0 if ok or 1 if error. Exit to ft_perror_free_exit
-*/
-int	execute_builtin(t_shell_sack ***sack, t_tree *node)
 /* @brief return 0 if ok or 1 if error. Exit to ft_perror_free_exit
 */
 int	execute_builtin(t_shell_sack ***sack, t_tree *node)
@@ -50,9 +45,7 @@ int	execute_builtin(t_shell_sack ***sack, t_tree *node)
 // @brief Check if the builtin have to execute in parent process.
 // @return 1 is has to execute in a parent process. 
 int	check_builtinparent(t_tree *node)
-int	check_builtinparent(t_tree *node)
 {
-	char	*cmd;
 	char	*cmd;
 
 	if (check_isbuiltin(node))
@@ -75,9 +68,7 @@ int	check_builtinparent(t_tree *node)
 }
 
 int	check_isbuiltin(t_tree *node)
-int	check_isbuiltin(t_tree *node)
 {
-	char	*cmd;
 	char	*cmd;
 
 	cmd = node->content->cmds[0];
